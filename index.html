@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EonAi Project - AI-Driven Trading</title>
     <style>
-        body { background-color: #121212; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; }
+        body { background-color: #121212; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; transition: all 0.3s ease; }
         .container { max-width: 800px; margin: 40px auto; padding: 20px; }
         header { text-align: center; padding: 60px 20px; background-color: #1a1a1a; }
         header h1 { font-size: 3rem; color: #5d78ff; margin: 0; }
@@ -20,91 +20,184 @@
         .roadmap-details, .token-details { color: #b0b0b0; line-height: 1.8; }
         footer { text-align: center; padding: 40px 20px; background-color: #1a1a1a; margin-top: 40px; }
         footer a { color: #5d78ff; text-decoration: none; font-size: 1.1rem; }
+
+        /* Language Switcher Styles */
+        .lang-switcher { position: fixed; top: 15px; right: 15px; z-index: 1000; background-color: rgba(30, 30, 30, 0.8); padding: 5px 10px; border-radius: 20px; display: flex; gap: 10px; backdrop-filter: blur(5px); }
+        .lang-switcher .flag { width: 30px; height: 30px; cursor: pointer; border-radius: 50%; object-fit: cover; border: 2px solid transparent; transition: border-color 0.3s ease; }
+        .lang-switcher .flag.active { border-color: #5d78ff; }
+
+        /* Language Content Visibility */
+        .en-text, .fa-text { display: none; }
+        body[lang="fa"] .fa-text { display: block; }
+        body[lang="en"] .en-text { display: block; }
+        
+        /* RTL & LTR specific styles */
+        body[lang="en"] { direction: ltr; }
+        body[lang="fa"] { direction: rtl; }
+        body[lang="en"] li { border-left: 5px solid #5d78ff; border-right: none; }
+        body[lang="fa"] li { border-right: 5px solid #5d78ff; border-left: none; }
     </style>
 </head>
-<body>
+<body lang="fa">
+
+    <div class="lang-switcher">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDU3MS40Ij4NCiAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNTcxLjQiIGZpbGw9IiNmZmYiLz4NCiAgPHJlY3QgeT0iMTkwLjUiIHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjM4MC45IiBmaWxsPSIjZGEwMDAwIi8+DQogIDxyZWN0IHk9IjE5MC41IiB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxOTAuNCIgZmlsbD0iIzAwOWEwMCIvPg0KICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCg1LjM4IDAgMCA1LjM4IDUwMCAyODYuNykiPg0KICAgIDxjaXJjbGUgcj0iMjAuNSIgZmlsbD0iI2Y5MCIvPg0KICAgIDxwYXRoIGZpbGw9IiNmOTAiIGQ9Ik0tNTAtMjVoMTAwdjUwSC01MHoiLz4NCiAgICA8cGF0aCBkPSJtLTIwLjgtMTcuMi0xLjggMTQuNCAxMy45IDQuMy0xMy45IDQuMy0xLjgtMTQuMy0xLjgtMTQuNCAxLjggMTQuNCAxMy45IDQuMy0xMy45IDQuMy0xLjgtMTQuMy0xLjgtMTQuNE0zMS4yLTMuNmwxNC4yLTEuNi05LjMgMTAuOC05LjMtMTAuOCAxNC4yLTEuNi0xNC4yLTEuNkwzMS4yLTMuNi05LjMgMTAuOC05LjMtMTAuOCAxNC4yLTEuNi0xNC4yLTEuNkwzMS4yLTMuNm0yLjYgMjQuNCAxMy02LjctNC4xIDEzLjQtNC4xLTEzLjQgMTMtNi43LTEzLTYuN2wyLjYgMjQuNC00LjEgMTMuNC00LjEtMTMuNCAxMy02LjctMTMtNi43bTIuNiAyNC40TTIuMiAzMS43bDEuMy0xNS45IDE1LjgtMS4zLTE1LjgtMS4zTDIuMiAzMS43bDIuMy0yOC41TDIuMiAzMS43bDE1LjgtMS4zLTE1LjgtMS4zTDIuMiAzMS43bDIuMy0yOC41bTAsMG0tMjYtNC4yLTEuMyAxNS45IDE1LjggMS4zLTE1LjggMS4zLTEuMy0xNS45TDEuNS0uMW0tMjUuMy0yLjktMS4zIDE1LjkgMTUuOCAxLjMtMTUuOCAxLjMtMS4zLTEuOS0xLjMtMTUuOVoiLz4NCiAgICA8cGF0aCBkPSJtLTMwLjgtMTUtOS4zIDEwLjgtNC4xLTEzLjQgMi42LTI0LjQgMTMuOSA0LjMgMi4zIDI4LjUtOS40LTEwLjgiIGZpbGw9IiNmOTAiLz4NCiAgICA8cGF0aCBkPSJtLTMwLjgtMTUtOS4zIDEwLjgtNC4xLTEzLjQgMi42LTI0LjQgMTMuOSA0LjMgMi4zIDI8YсіvPg0KICAgIDxwYXRoIGQ9Ik0gLTIwLjIsLTE3LjcgTCAzLjgsLTI4LjUgTCAxNC4yLC0xLjYgTCAyLjYsMjQuNCBMIC0yMy44LDI3LjUgTCAzMS4yLC0zLjYgWiIvPg0KICA8L2c+DQo8L3N2Zz4=" class="flag" id="fa-flag" alt="فارسی">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCAzMCIgd2lkdGg9IjEyMDAiIGhlaWdodD0iNjAwIj4NCiAgPHBhdGggZmlsbD0iIzAwMjQ3ZCIgZD0iTTAgMGg2MHYzMEgwWiIvPg0KICAicGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIgZD0iTTAgMEw2MCAzME0wIDMwTDYwIDAiLz4NCiAgPHBhdGggc3Ryb2tlPSIjY2YxNDJiIiBzdHJva2Utd2lkdGg9IjQiIGQ9Ik0wIDBMODAgNDBNMC0xMEw3MCAzME0tMTAgMEw2MCAxME0tMTAgMjBMNjAgNTBNMzAgLTEwaDB2NTBNLTMwIDE1aDExMCIvPg0KICA8cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMTAiIGQ9Ik0zMCAwaDB2MzBNMCAxNWg2MCIvPg0KICA8cGF0aCBzdHJva2U9IiNjZjE0MmIiIHN0cm9rZS13aWR0aD0iNiIgZD0iTTMwIDBoMHYzME0wIDE1aDYwIi8+DQo8L3N2Zz4=" class="flag active" id="en-flag" alt="English">
+    </div>
 
     <header>
-        <h1>EonAi</h1>
-        <p>AI-Driven Returns. Real-World Wealth.</p>
+        <div class="fa-text">
+            <h1>EonAi</h1>
+            <p>بازدهی مبتنی بر هوش مصنوعی. ثروت در دنیای واقعی.</p>
+        </div>
+        <div class="en-text">
+            <h1>EonAi</h1>
+            <p>AI-Driven Returns. Real-World Wealth.</p>
+        </div>
     </header>
 
     <div class="container">
 
         <section id="problem-solution">
-            <h2>چالش بی‌پایان بازار، راه حل هوشمند ما</h2>
-            <p>بازارهای مالی، دنیایی پر از فرصت، اما سرشار از پیچیدگی هستند. ۹۵٪ معامله‌گران، با وجود صرف ساعت‌ها زمان برای تحلیل و آموزش، در نهایت به دلیل تصمیم‌گیری‌های احساسی، استرس مداوم و ناتوانی در یافتن یک استراتژی واقعاً پایدار، سرمایه خود را از دست می‌دهند. بازار هرگز نمی‌خوابد، اما شما نیاز به استراحت دارید.</p>
-            <p><strong>EonAi پاسخ ما به این چالش است؛</strong> یک سیستم معاملاتی کاملاً خودکار که با قدرت هوش مصنوعی، بازار را بدون دخالت احساسات تحلیل می‌کند. این سیستم، با استفاده از استراتژی‌های تطبیق‌پذیر و مدیریت ریسک پیشرفته، به صورت ۲۴ ساعته به دنبال بهترین فرصت‌های معاملاتی می‌گردد. هدف EonAi ساده است: ایجاد بازدهی هوشمند و پایدار، تا شما بتوانید وقت ارزشمند خود را صرف چیزهایی کنید که واقعاً دوست دارید.</p>
+            <h2 class="fa-text">چالش بی‌پایان بازار، راه حل هوشمند ما</h2>
+            <h2 class="en-text">The Endless Market Challenge, Our Intelligent Solution</h2>
+            <div class="fa-text">
+                <p>بازارهای مالی، دنیایی پر از فرصت، اما سرشار از پیچیدگی هستند. ۹۵٪ معامله‌گران، با وجود صرف ساعت‌ها زمان برای تحلیل و آموزش، در نهایت به دلیل تصمیم‌گیری‌های احساسی، استرس مداوم و ناتوانی در یافتن یک استراتژی واقعاً پایدار، سرمایه خود را از دست می‌دهند. بازار هرگز نمی‌خوابد، اما شما نیاز به استراحت دارید.</p>
+                <p><strong>EonAi پاسخ ما به این چالش است؛</strong> یک سیستم معاملاتی کاملاً خودکار که با قدرت هوش مصنوعی، بازار را بدون دخالت احساسات تحلیل می‌کند. این سیستم، با استفاده از استراتژی‌های تطبیق‌پذیر و مدیریت ریسک پیشرفته، به صورت ۲۴ ساعته به دنبال بهترین فرصت‌های معاملاتی می‌گردد. هدف EonAi ساده است: ایجاد بازدهی هوشمند و پایدار، تا شما بتوانید وقت ارزشمند خود را صرف چیزهایی کنید که واقعاً دوست دارید.</p>
+            </div>
+            <div class="en-text">
+                <p>Financial markets are a world of opportunity, yet fraught with complexity. 95% of traders, despite spending countless hours on analysis and education, ultimately lose their capital due to emotional decision-making, constant stress, and the inability to find a truly sustainable strategy. The market never sleeps, but you need to.</p>
+                <p><strong>EonAi is our answer to this challenge;</strong> a fully automated trading system that analyzes the market with the power of AI, free from emotional interference. Using adaptive strategies and advanced risk management, this system hunts for the best trading opportunities 24/7. EonAi's goal is simple: to generate intelligent, sustainable returns, so you can spend your valuable time on the things you truly love.</p>
+            </div>
         </section>
 
         <section id="technology">
-            <h2>فناوری و معماری سیستم EonAi</h2>
-            <p>معماری EonAi حاصل یک چالش بزرگ است: چگونه می‌توان **تجربه، شهود و هنر معامله‌گری یک انسان حرفه‌ای** را به یک سیستم خودکار، منضبط و خستگی‌ناپذیر تبدیل کرد؟ برخلاف ربات‌های رایج که بر اساس اندیکاتورهای ساده عمل می‌کنند، EonAi بر پایه یک رویکرد چندلایه و الهام گرفته از **بیش از هشت سال تجربه واقعی بنیان‌گذار آن** در بازارهای مالی بنا شده است. فلسفه اصلی ما، اولویت دادن به **تحلیل ساختار و رفتار قیمت (Price Action)** و استفاده از ابزارهای کمی، تنها به عنوان فیلتر تأییدکننده است.</p>
+             <h2 class="fa-text">فناوری و معماری سیستم EonAi</h2>
+             <h2 class="en-text">EonAi Technology & Architecture</h2>
+            <div class="fa-text">
+                <p>معماری EonAi حاصل یک چالش بزرگ است: چگونه می‌توان **تجربه، شهود و هنر معامله‌گری یک انسان حرفه‌ای** را به یک سیستم خودکار، منضبط و خستگی‌ناپذیر تبدیل کرد؟ برخلاف ربات‌های رایج که بر اساس اندیکاتورهای ساده عمل می‌کنند، EonAi بر پایه یک رویکرد چندلایه و الهام گرفته از **بیش از هشت سال تجربه واقعی بنیان‌گذار آن** در بازارهای مالی بنا شده است. فلسفه اصلی ما، اولویت دادن به **تحلیل ساختار و رفتار قیمت (Price Action)** و استفاده از ابزارهای کمی، تنها به عنوان فیلتر تأییدکننده است.</p>
+            </div>
+             <div class="en-text">
+                <p>The architecture of EonAi is the result of a significant challenge: how to translate the **experience, intuition, and art of a professional human trader** into an automated, disciplined, and tireless system. Unlike common bots that rely on simple indicators, EonAi is built on a multi-layered approach inspired by **over eight years of its founder's real-world experience** in financial markets. Our core philosophy is to prioritize the **analysis of price action and market structure**, using quantitative tools merely as confirmation filters.</p>
+            </div>
             <ul>
                 <li>
-                    <strong>موتور تحلیل بازار (The Brain)</strong>
-                    <p>موتور تحلیلی EonAi به صورت مداوم و در چندین تایم‌فریم، وضعیت بازار را رصد می‌کند. این سیستم به صورت خودکار، تفاوت بین یک بازار پر روند و قدرتمند و یک بازار نوسانی و بدون جهت را تشخیص می‌دهد. این قابلیت تشخیص، به EonAi اجازه می‌دهد تا برای هر شرایطی، از استراتژی مناسب همان شرایط استفاده کند.</p>
+                    <strong class="fa-text">موتور تحلیل بازار (The Brain)</strong>
+                    <strong class="en-text">The Market Analysis Engine (The Brain)</strong>
+                    <p class="fa-text">موتور تحلیلی EonAi به صورت مداوم و در چندین تایم‌فریم، وضعیت بازار را رصد می‌کند. این سیستم به صورت خودکار، تفاوت بین یک بازار پر روند و قدرتمند و یک بازار نوسانی و بدون جهت را تشخیص می‌دهد. این قابلیت تشخیص، به EonAi اجازه می‌دهد تا برای هر شرایطی، از استراتژی مناسب همان شرایط استفاده کند.</p>
+                    <p class="en-text">The EonAi analysis engine continuously monitors market conditions across multiple timeframes. It automatically distinguishes between a **strong, trending market** and a **range-bound, non-directional market**. This diagnostic capability allows EonAi to apply the most suitable strategy for any given condition.</p>
                 </li>
                 <li>
-                    <strong>هسته تصمیم‌گیری (The Strategy Core)</strong>
-                    <p>هسته اصلی تصمیم‌گیری ما یک موتور استراتژی دوگانه است. در بازارهای روندی، سیستم به دنبال نقاط ورود کم‌ریسک در جهت روند اصلی می‌گردد. در بازارهای نوسانی، به یک شکارچی بازگشت‌های قیمتی در محدوده‌های کلیدی حمایت و مقاومت تبدیل می‌شود. ماشه نهایی برای ورود به هر معامله، شناسایی الگوهای معتبر پرایس اکشن است که نشان‌دهنده یک نقطه عطف در فشار خرید یا فروش می‌باشد.</p>
+                    <strong class="fa-text">هسته تصمیم‌گیری (The Strategy Core)</strong>
+                    <strong class="en-text">The Decision-Making Core (The Strategy Core)</strong>
+                    <p class="fa-text">هسته اصلی تصمیم‌گیری ما یک موتور استراتژی دوگانه است. در بازارهای روندی، سیستم به دنبال نقاط ورود کم‌ریسک در جهت روند اصلی می‌گردد. در بازارهای نوسانی، به یک شکارچی بازگشت‌های قیمتی در محدوده‌های کلیدی حمایت و مقاومت تبدیل می‌شود. ماشه نهایی برای ورود به هر معامله، شناسایی الگوهای معتبر پرایس اکشن است که نشان‌دهنده یک نقطه عطف در فشار خرید یا فروش می‌باشد.</p>
+                    <p class="en-text">Our core is a **dual-strategy engine**. In trending markets, the system seeks low-risk entry points in the direction of the main trend. In ranging markets, it becomes a hunter of price reversals at key support and resistance zones. The final trigger for any trade is the identification of valid price action patterns that signal a turning point in buying or selling pressure.</p>
                 </li>
                  <li>
-                    <strong>ماژول مدیریت ریسک (The Shield)</strong>
-                    <p>حفاظت از سرمایه، اولویت اصلی EonAi است. هر معامله با یک مدیریت ریسک پویا آغاز می‌شود؛ حجم معامله بر اساس درصد ثابتی از سرمایه محاسبه شده و حد ضرر و سود، نه بر اساس اعداد ثابت، بلکه بر اساس نوسانات واقعی و لحظه‌ای بازار (ATR) تنظیم می‌گردد. این تضمین می‌کند که ریسک ما همیشه با شخصیت بازار متناسب است. علاوه بر این، سیستم مدیریت معامله داخلی، سودهای کسب شده را با استفاده از تریلینگ استاپ هوشمند، محافظت می‌کند.</p>
+                    <strong class="fa-text">ماژول مدیریت ریسک (The Shield)</strong>
+                    <strong class="en-text">The Risk Management Module (The Shield)</strong>
+                    <p class="fa-text">حفاظت از سرمایه، اولویت اصلی EonAi است. هر معامله با یک مدیریت ریسک پویا آغاز می‌شود؛ حجم معامله بر اساس درصد ثابتی از سرمایه محاسبه شده و حد ضرر و سود، نه بر اساس اعداد ثابت، بلکه بر اساس نوسانات واقعی و لحظه‌ای بازار (ATR) تنظیم می‌گردد. این تضمین می‌کند که ریسک ما همیشه با شخصیت بازار متناسب است. علاوه بر این، سیستم مدیریت معامله داخلی، سودهای کسب شده را با استفاده از تریلینگ استاپ هوشمند، محافظت می‌کند.</p>
+                    <p class="en-text">Capital protection is EonAi's top priority. Every trade begins with **dynamic risk management**; position size is calculated based on a fixed percentage of equity, and the stop-loss and take-profit levels are set not by fixed numbers, but by the **real-time volatility of the market (ATR)**. This ensures our risk is always proportional to the market's character. Furthermore, the internal trade management system protects earned profits using an intelligent trailing stop.</p>
                 </li>
                  <li>
-                    <strong>معماری آینده‌نگر و آماده برای تکامل (Forward-Thinking & Evolution-Ready Architecture)</strong>
-                    <p>معماری EonAi به صورت ماژولار و برای رشد بلندمدت طراحی شده است. این زیرساخت قوی به ما اجازه می‌دهد تا سیستم را به صورت مداوم با جدیدترین تکنولوژی‌های هوش مصنوعی و تحلیل بازار به‌روزرسانی کرده و همیشه یک قدم از پیچیدگی‌های آینده بازار جلوتر باشیم. EonAi یک پروژه ایستا نیست، بلکه یک سیستم زنده و در حال تکامل است.</p>
+                    <strong class="fa-text">معماری آینده‌نگر و آماده برای تکامل</strong>
+                    <strong class="en-text">Forward-Thinking & Evolution-Ready Architecture</strong>
+                    <p class="fa-text">معماری EonAi به صورت ماژولار و برای رشد بلندمدت طراحی شده است. این زیرساخت قوی به ما اجازه می‌دهد تا سیستم را به صورت مداوم با جدیدترین تکنولوژی‌های هوش مصنوعی و تحلیل بازار به‌روزرسانی کرده و همیشه یک قدم از پیچیدگی‌های آینده بازار جلوتر باشیم. EonAi یک پروژه ایستا نیست، بلکه یک سیستم زنده و در حال تکامل است.</p>
+                    <p class="en-text">EonAi's architecture is modular and designed for long-term growth. This robust foundation allows us to continuously update the system with the latest AI and market analysis technologies, ensuring we always stay one step ahead of future market complexities. EonAi is not a static project; it is a living, evolving system.</p>
                 </li>
             </ul>
         </section>
 
         <section id="roadmap">
-            <h2>نقشه راه پروژه</h2>
+            <h2 class="fa-text">نقشه راه پروژه</h2>
+            <h2 class="en-text">Project Roadmap</h2>
             <ul>
                 <li>
-                    <strong class="roadmap-phase">فاز ۱: بنیان‌گذاری و اثبات مفهوم</strong>
-                    <p class="roadmap-details">- تکمیل معماری فنی سیستم هوشمند EonAi<br>- راه‌اندازی وب‌سایت و زیرساخت‌های اولیه<br>- ایجاد و نمایش عمومی سابقه عملکرد شفاف (Live Track Record)<br>- انتشار وایت‌پیپر اولیه و مدل توکنومیکس</p>
+                    <strong class="fa-text roadmap-phase">فاز ۱: بنیان‌گذاری و اثبات مفهوم</strong>
+                    <strong class="en-text roadmap-phase">Phase 1: Foundation & Proof of Concept</strong>
+                    <p class="fa-text roadmap-details">- تکمیل معماری فنی سیستم هوشمند EonAi<br>- راه‌اندازی وب‌سایت و زیرساخت‌های اولیه<br>- ایجاد و نمایش عمومی سابقه عملکرد شفاف (Live Track Record)<br>- انتشار وایت‌پیپر اولیه و مدل توکنومیکس</p>
+                    <p class="en-text roadmap-details">- Finalize the technical architecture of the EonAi smart system<br>- Launch website and initial infrastructure<br>- Establish and display a public, transparent live track record<br>- Publish the initial whitepaper and tokenomics model</p>
                 </li>
                 <li>
-                    <strong class="roadmap-phase">فاز ۲: رشد اولیه و جذب سرمایه</strong>
-                    <p class="roadmap-details">- جذب سرمایه اولیه (Seed Round) برای تسریع در توسعه<br>- راه‌اندازی نسخه زنده سیستم روی حساب واقعی ECN<br>- راه‌اندازی سرویس کپی تریدینگ برای اعضای اولیه جامعه</p>
+                    <strong class="fa-text roadmap-phase">فاز ۲: رشد اولیه و جذب سرمایه</strong>
+                    <strong class="en-text roadmap-phase">Phase 2: Early Growth & Fundraising</strong>
+                    <p class="fa-text roadmap-details">- جذب سرمایه اولیه (Seed Round) برای تسریع در توسعه<br>- راه‌اندازی نسخه زنده سیستم روی حساب واقعی ECN<br>- راه‌اندازی سرویس کپی تریدینگ برای اعضای اولیه جامعه</p>
+                    <p class="en-text roadmap-details">- Secure seed round funding to accelerate development<br>- Deploy the live version of the system on a real ECN account<br>- Launch copy-trading service for early community members</p>
                 </li>
                  <li>
-                    <strong class="roadmap-phase">فاز ۳: ساخت و ممیزی توکن</strong>
-                    <p class="roadmap-details">- توسعه قرارداد هوشمند توکن ENA<br>- انجام ممیزی امنیتی کامل (Full Security Audit) توسط شرکت‌های معتبر<br>- گسترش تیم و آماده‌سازی برای عرضه عمومی</p>
+                    <strong class="fa-text roadmap-phase">فاز ۳: ساخت و ممیزی توکن</strong>
+                    <strong class="en-text roadmap-phase">Phase 3: Token Development & Audit</strong>
+                    <p class="fa-text roadmap-details">- توسعه قرارداد هوشمند توکن ENA<br>- انجام ممیزی امنیتی کامل (Full Security Audit) توسط شرکت‌های معتبر<br>- گسترش تیم و آماده‌سازی برای عرضه عمومی</p>
+                    <p class="en-text roadmap-details">- Develop the ENA token smart contract<br>- Conduct a full security audit by a reputable firm<br>- Expand the team and prepare for public sale</p>
                 </li>
                 <li>
-                    <strong class="roadmap-phase">فاز ۴: عرضه عمومی و گسترش اکوسیستم</strong>
-                    <p class="roadmap-details">- برگزاری رویداد عرضه اولیه توکن (IDO)<br>- لیست کردن توکن ENA در صرافی‌های معتبر (DEX)<br>- راه‌اندازی رسمی صندوق پشتوانه توکن و مکانیزم‌های بازدهی<br>- شروع فاز دوم بازاریابی و همکاری‌های استراتژیک</p>
+                    <strong class="fa-text roadmap-phase">فاز ۴: عرضه عمومی و گسترش اکوسیستم</strong>
+                    <strong class="en-text roadmap-phase">Phase 4: Public Launch & Ecosystem Expansion</strong>
+                    <p class="fa-text roadmap-details">- برگزاری رویداد عرضه اولیه توکن (IDO)<br>- لیست کردن توکن ENA در صرافی‌های معتبر (DEX)<br>- راه‌اندازی رسمی صندوق پشتوانه توکن و مکانیزم‌های بازدهی<br>- شروع فاز دوم بازاریابی و همکاری‌های استراتژیک</p>
+                    <p class="en-text roadmap-details">- Hold the Initial DEX Offering (IDO) event<br>- List the ENA token on reputable decentralized exchanges (DEX)<br>- Officially launch the token's backing fund and yield mechanisms<br>- Initiate phase two of marketing and strategic partnerships</p>
                 </li>
             </ul>
         </section>
 
         <section id="tokenomics">
-            <h2>توکنومیکس (اقتصاد توکن) ENA</h2>
+            <h2 class="fa-text">توکنومیکس (اقتصاد توکن) ENA</h2>
+            <h2 class="en-text">ENA Tokenomics</h2>
              <ul>
-                <li><strong class="token-category">نقدینگی و خزانه (Liquidity & Treasury): 25%</strong><p class="token-details">برای تأمین نقدینگی در صرافی‌ها و صندوق استراتژیک بلندمدت پروژه.</p></li>
-                <li><strong class="token-category">اکوسیستم و بازاریابی (Ecosystem & Marketing): 20%</strong><p class="token-details">برای رشد جامعه، همکاری‌ها و گسترش دامنه پروژه.</p></li>
-                 <li><strong class="token-category">پاداش استیکینگ (Staking Rewards): 20%</strong><p class="token-details">برای پاداش به حامیان و دارندگان بلندمدت توکن.</p></li>
-                <li><strong class="token-category">تیم و بنیان‌گذار (Team & Founder): 15%</strong><p class="token-details">با یک برنامه آزادسازی تدریجی برای تضمین تعهد بلندمدت.</p></li>
-                <li><strong class="token-category">فروش عمومی (Public Sale): 12.5%</strong><p class="token-details">فرصتی برای عموم جامعه برای مشارکت در موفقیت EonAi.</p></li>
-                <li><strong class="token-category">فروش خصوصی (Private Sale): 7.5%</strong><p class="token-details">برای جذب سرمایه‌گذاران اولیه و استراتژیک پروژه.</p></li>
+                <li><strong class="fa-text token-category">نقدینگی و خزانه: 25%</strong><strong class="en-text token-category">Liquidity & Treasury: 25%</strong><p class="fa-text token-details">برای تأمین نقدینگی در صرافی‌ها و صندوق استراتژیک بلندمدت پروژه.</p><p class="en-text token-details">To provide liquidity on exchanges and for the project's long-term strategic treasury.</p></li>
+                <li><strong class="fa-text token-category">اکوسیستم و بازاریابی: 20%</strong><strong class="en-text token-category">Ecosystem & Marketing: 20%</strong><p class="fa-text token-details">برای رشد جامعه، همکاری‌ها و گسترش دامنه پروژه.</p><p class="en-text token-details">For community growth, partnerships, and expanding the project's reach.</p></li>
+                 <li><strong class="fa-text token-category">پاداش استیکینگ: 20%</strong><strong class="en-text token-category">Staking Rewards: 20%</strong><p class="fa-text token-details">برای پاداش به حامیان و دارندگان بلندمدت توکن.</p><p class="en-text token-details">To reward long-term token holders and supporters.</p></li>
+                <li><strong class="fa-text token-category">تیم و بنیان‌گذار: 15%</strong><strong class="en-text token-category">Team & Founder: 15%</strong><p class="fa-text token-details">با یک برنامه آزادسازی تدریجی برای تضمین تعهد بلندمدت.</p><p class="en-text token-details">With a gradual vesting schedule to ensure long-term commitment.</p></li>
+                <li><strong class="fa-text token-category">فروش عمومی: 12.5%</strong><strong class="en-text token-category">Public Sale: 12.5%</strong><p class="fa-text token-details">فرصتی برای عموم جامعه برای مشارکت در موفقیت EonAi.</p><p class="en-text token-details">An opportunity for the general community to participate in EonAi's success.</p></li>
+                <li><strong class="fa-text token-category">فروش خصوصی: 7.5%</strong><strong class="en-text token-category">Private Sale: 7.5%</strong><p class="fa-text token-details">برای جذب سرمایه‌گذاران اولیه و استراتژیک پروژه.</p><p class="en-text token-details">To onboard early and strategic project investors.</p></li>
             </ul>
         </section>
 
         <section id="team">
-            <h2>تیم ما</h2>
-            <h3>شهاب - بنیان‌گذار و مدیرعامل</h3>
-            <p>برای بیش از ۸ سال، بازارهای مالی میدان نبرد و یادگیری من بود. در این مسیر طولانی، یک حقیقت بزرگ را کشف کردم: در معامله‌گری، بزرگترین دشمن شما خود بازار نیست، بلکه طبیعت انسانی خودتان است. اشتباهات ناشی از طمع و ترس، معاملات بیش از حد (Over-trading) و ساعت‌های بی‌شماری که پای چارت تلف می‌شد، همگی موانعی بودند که حتی بهترین استراتژی‌ها را هم در نهایت بی‌اثر می‌کردند. EonAi رویای من برای حل این مشکل است. من تمام تجربه و استراتژی‌هایی که در این ۸ سال آموخته‌ام را در قلب یک هوش مصنوعی قرار دادم تا سیستمی بسازم که نه تنها هوشمندانه معامله می‌کند، بلکه به ما بزرگترین دارایی‌های زندگی یعنی «زمان» و «آرامش خیال» را باز می‌گرداند.</p>
+            <h2 class="fa-text">تیم ما</h2>
+            <h2 class="en-text">Our Team</h2>
+            <h3 class="fa-text">شهاب - بنیان‌گذار و مدیرعامل</h3>
+            <h3 class="en-text">Shahab - Founder & CEO</h3>
+            <div class="fa-text">
+                <p>برای بیش از ۸ سال، بازارهای مالی میدان نبرد و یادگیری من بود. در این مسیر طولانی، یک حقیقت بزرگ را کشف کردم: در معامله‌گری، بزرگترین دشمن شما خود بازار نیست، بلکه طبیعت انسانی خودتان است. اشتباهات ناشی از طمع و ترس، معاملات بیش از حد (Over-trading) و ساعت‌های بی‌شماری که پای چارت تلف می‌شد، همگی موانعی بودند که حتی بهترین استراتژی‌ها را هم در نهایت بی‌اثر می‌کردند. EonAi رویای من برای حل این مشکل است. من تمام تجربه و استراتژی‌هایی که در این ۸ سال آموخته‌ام را در قلب یک هوش مصنوعی قرار دادم تا سیستمی بسازم که نه تنها هوشمندانه معامله می‌کند، بلکه به ما بزرگترین دارایی‌های زندگی یعنی «زمان» و «آرامش خیال» را باز می‌گرداند.</p>
+            </div>
+            <div class="en-text">
+                <p>For over 8 years, the financial markets were my battlefield and my classroom. On this long journey, I discovered a great truth: in trading, your greatest enemy isn't the market, but your own human nature. Mistakes born from greed and fear, over-trading, and the countless hours wasted in front of charts were all obstacles that would ultimately neutralize even the best strategies. EonAi is my dream to solve this problem. I have poured all the experience and strategies I've learned over these 8 years into the heart of an AI to build a system that not only trades intelligently but also gives us back life's greatest assets: "time" and "peace of mind."</p>
+            </div>
         </section>
     </div>
 
     <footer>
-        <p><a href="https://t.me/EonAiOfficial" target="_blank">به کانال تلگرام ما بپیوندید</a></p>
-        <p>&copy; 2025 EonAi Project</p>
+        <p><a href="https://t.me/EonAiOfficial" target="_blank" class="fa-text">به کانال تلگرام ما بپیوندید</a><a href="https://t.me/EonAiOfficial" target="_blank" class="en-text">Join our Telegram Channel</a></p>
+        <p class="fa-text">&copy; 2025 پروژه EonAi</p>
+        <p class="en-text">&copy; 2025 EonAi Project</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const faFlag = document.getElementById('fa-flag');
+            const enFlag = document.getElementById('en-flag');
+            const body = document.body;
+
+            // Set default language based on browser preference or keep Persian
+            const userLang = navigator.language || navigator.userLanguage; 
+            if (userLang.startsWith('en')) {
+                setLanguage('en');
+            } else {
+                setLanguage('fa');
+            }
+
+            faFlag.addEventListener('click', () => setLanguage('fa'));
+            enFlag.addEventListener('click', () => setLanguage('en'));
+
+            function setLanguage(lang) {
+                body.lang = lang;
+                body.dir = lang === 'fa' ? 'rtl' : 'ltr';
+                
+                faFlag.classList.toggle('active', lang === 'fa');
+                enFlag.classList.toggle('active', lang === 'en');
+            }
+        });
+    </script>
 
 </body>
 </html>
