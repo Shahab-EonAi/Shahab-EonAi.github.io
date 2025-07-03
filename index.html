@@ -5,26 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EonAi Project - AI-Driven Trading</title>
     <style>
-        body { background-color: #121212; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; transition: all 0.3s ease; }
+        body { 
+            background-color: #0a192f; /* <-- رنگ پس‌زمینه اصلی به آبی تیره تغییر کرد */
+            color: #ccd6f6; /* <-- رنگ متن اصلی برای خوانایی بهتر */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            padding: 0; 
+            transition: all 0.3s ease; 
+        }
         .container { max-width: 800px; margin: 40px auto; padding: 20px; }
-        header { text-align: center; padding: 60px 20px; background-color: #1a1a1a; }
-        header h1 { font-size: 3rem; color: #5d78ff; margin: 0; }
-        header p { font-size: 1.2rem; color: #a0a0a0; }
-        section { padding: 40px 20px; border-bottom: 1px solid #333; }
-        h2 { text-align: center; font-size: 2.2rem; color: #fff; margin-bottom: 40px; }
+        header { text-align: center; padding: 60px 20px; }
+        header h1 { 
+            font-size: 3.5rem; 
+            color: #64ffda; /* <-- رنگ تیتر اصلی به سبز-آبی نئونی تغییر کرد */
+            margin: 0; 
+        }
+        header p { font-size: 1.2rem; color: #8892b0; }
+        section { padding: 40px 20px; border-bottom: 1px solid #172a45; }
+        h2 { text-align: center; font-size: 2.2rem; color: #ccd6f6; margin-bottom: 40px; }
         ul { list-style: none; padding: 0; }
-        li { background-color: #1e1e1e; padding: 20px; margin-bottom: 15px; border-radius: 8px; border-left: 5px solid #5d78ff; }
-        strong { color: #5d78ff; font-size: 1.2rem; display: block; margin-bottom: 10px; }
-        #team h3 { color: #c0c0c0; font-size: 1.5rem; margin-top: 30px; }
+        li { 
+            background-color: #112240; /* <-- رنگ پس‌زمینه آیتم‌ها */
+            padding: 20px; 
+            margin-bottom: 15px; 
+            border-radius: 8px; 
+            border-left: 5px solid #64ffda; /* <-- رنگ نوار کناری */
+        }
+        strong { 
+            color: #64ffda; /* <-- رنگ تیترهای قوی */
+            font-size: 1.2rem; 
+            display: block; 
+            margin-bottom: 10px; 
+        }
+        #team h3 { color: #ccd6f6; font-size: 1.5rem; margin-top: 30px; }
         .roadmap-phase, .token-category { font-size: 1.1rem; margin-bottom: 5px; }
-        .roadmap-details, .token-details { color: #b0b0b0; line-height: 1.8; }
-        footer { text-align: center; padding: 40px 20px; background-color: #1a1a1a; margin-top: 40px; }
-        footer a { color: #5d78ff; text-decoration: none; font-size: 1.1rem; }
+        .roadmap-details, .token-details { color: #8892b0; line-height: 1.8; }
+        footer { text-align: center; padding: 40px 20px; background-color: #0a192f; margin-top: 40px; }
+        footer a { color: #64ffda; text-decoration: none; font-size: 1.1rem; }
 
         /* Language Switcher Styles */
-        .lang-switcher { position: fixed; top: 15px; right: 15px; z-index: 1000; background-color: rgba(30, 30, 30, 0.8); padding: 5px 10px; border-radius: 20px; display: flex; gap: 10px; backdrop-filter: blur(5px); }
+        .lang-switcher { position: fixed; top: 15px; right: 15px; z-index: 1000; background-color: rgba(17, 34, 64, 0.8); padding: 5px 10px; border-radius: 20px; display: flex; gap: 10px; backdrop-filter: blur(5px); }
         .lang-switcher .flag { width: 30px; height: 30px; cursor: pointer; border-radius: 50%; object-fit: cover; border: 2px solid transparent; transition: border-color 0.3s ease; }
-        .lang-switcher .flag.active { border-color: #5d78ff; }
+        .lang-switcher .flag.active { border-color: #64ffda; }
 
         /* Language Content Visibility */
         .en-text, .fa-text { display: none; }
@@ -34,8 +57,8 @@
         /* RTL & LTR specific styles */
         body[lang="en"] { direction: ltr; }
         body[lang="fa"] { direction: rtl; }
-        body[lang="en"] li { border-left: 5px solid #5d78ff; border-right: none; }
-        body[lang="fa"] li { border-right: 5px solid #5d78ff; border-left: none; }
+        body[lang="en"] li { border-left: 5px solid #64ffda; border-right: none; }
+        body[lang="fa"] li { border-right: 5px solid #64ffda; border-left: none; }
     </style>
 </head>
 <body lang="fa">
